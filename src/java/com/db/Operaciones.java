@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import com.db.Usuario;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 /**
  *
@@ -73,9 +74,19 @@ public class Operaciones {
             if(con!=null)
             {
                 Statement st;
+                ResultSet rs;
                 st=con.createStatement();
-                st.executeUpdate("INSERT INTO usuarios (id,nombre,password,username) VALUES ('"+usuario.getId()+"','"+usuario.getNombre()+"','"+usuario.getPassword()+"','"+usuario.getUsername()+"')");
-                agregado=true;
+                rs=st.executeQuery("SELECT * FROM usuarios");
+                while(rs.next())
+                {
+                    Usuario usuario= new Usuario();
+                    usuario.setId(rs.getInt(1));
+                    usuario.setNombre(rs.getString(2));
+                    usuario.setPassword(rs.getString(3));
+                    usuario.setUsername(rs.getString(4));
+                    listaUsuarios.add(usuario);
+                }
+                rs.close();
                 st.close();
             }
             d.cerrarConexion();   
