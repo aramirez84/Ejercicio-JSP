@@ -1,2 +1,2 @@
 # Ejercicio-JSP
-Ejercicio con JSP,Servlets y Conexion a Base de datos
+ABC utilizando JSP,Servlets y Base de datos MySQL.
