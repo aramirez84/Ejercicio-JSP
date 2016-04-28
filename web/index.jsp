@@ -4,7 +4,10 @@
     Author     : alejandro.ramirez
 --%>
 
+<%@page import="com.db.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="com.db.Operaciones" %>
+<%@page import="java.util.LinkedList" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,18 +20,22 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                <th>Alias</th>
-                <th>Codigo Postal</th>
-                <th>Permisos</th>    
+                    <th>Password</th>
+                    <th>Username</th>    
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+            <%
+                LinkedList<Usuario> usuarios=Operaciones.getUsuarios();
+                for(int i=0;i<usuarios.size();i++)
+                {
+                    out.println("<tr>");
+                    out.println("<td>"+usuarios.get(i).getNombre()+"</td>");
+                    out.println("<td>"+usuarios.get(i).getPassword()+"</td>");
+                    out.println("<td>"+usuarios.get(i).getUsername()+"</td>");
+                    out.println("</tr>");
+                }
+            %>
             </tbody>
         </table>
     </body>
