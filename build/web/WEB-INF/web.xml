@@ -1,0 +1,11 @@
+<web-app>
+    <servlet>
+        <servlet-name>ServletAgregar</servlet-name>
+        <servlet-class>com.servlet.ServletAgregar</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletAgregar</servlet-name>
+        <url-pattern>/ServletAgregar</url-pattern>
+    </servlet-mapping>
+</web-app>
