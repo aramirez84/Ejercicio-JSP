@@ -84,20 +84,19 @@ public class ServletAgregar extends HttpServlet {
         
         if(!nombre.equalsIgnoreCase(""))
         {
+            PrintWriter out = response.getWriter();
             Usuario newUser= new Usuario(id,nombre, password, username);
             boolean respuesta=Operaciones.insertUsuario(newUser);
             if(respuesta)
             {
-                RequestDispatcher dispatcher=request.getRequestDispatcher("index.jsp");
-                dispatcher.forward(request, response);
+                //RequestDispatcher dispatcher=request.getRequestDispatcher("index.jsp");
+                //dispatcher.forward(request, response);
                 //response.sendRedirect("index.jsp");
-                
+                out.println("Usuario agregado correctamente");
             }
             else
             {
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("Error al ingresar usuario intentelo de nuevo");
-                }
+                out.println("Error al ingresar usuario intentelo de nuevo");
             }
         }
         
