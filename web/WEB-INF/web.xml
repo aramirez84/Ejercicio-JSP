@@ -7,9 +7,26 @@
         <servlet-name>ServletAgregar</servlet-name>
         <servlet-class>com.servlet.ServletAgregar</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>ServletAgregar</servlet-name>
         <url-pattern>/ServletAgregar</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServletAgregarDireccion</servlet-name>
+        <servlet-class>com.servlet.ServletAgregarDireccion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAgregarDireccion</servlet-name>
+        <url-pattern>/ServletAgregarDireccion</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ServletAgregarPermisos</servlet-name>
+        <servlet-class>com.servlet.ServletAgregarPermisos</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletAgregarPermisos</servlet-name>
+        <url-pattern>/ServletAgregarPermisos</url-pattern>
     </servlet-mapping>
 </web-app>
