@@ -43,6 +43,55 @@ public class Operaciones {
         return id;
     }
     
+    public static int getUltimoIDDireccion(){
+        try
+        {
+            Database d= new Database();
+            Connection con=d.getConection();
+            if(con!=null)
+            {
+                Statement st;
+                ResultSet rs;
+                st=con.createStatement();
+                rs=st.executeQuery("SELECT id FROM direcciones ORDER BY id DESC LIMIT 1");
+                rs.next();
+                id=rs.getInt(1);
+                System.out.println(id);
+                st.close();
+                rs.close();
+            }
+            d.cerrarConexion();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+    
+    public static int getUltimoIDPermisos(){
+        try
+        {
+            Database d= new Database();
+            Connection con=d.getConection();
+            if(con!=null)
+            {
+                Statement st;
+                ResultSet rs;
+                st=con.createStatement();
+                rs=st.executeQuery("SELECT id FROM permisos ORDER BY id DESC LIMIT 1");
+                rs.next();
+                id=rs.getInt(1);
+                System.out.println(id);
+                st.close();
+                rs.close();
+            }
+            d.cerrarConexion();
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
     public static boolean insertUsuario(Usuario usuario)
     {
         boolean agregado=false;
