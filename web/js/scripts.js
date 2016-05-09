@@ -72,9 +72,9 @@ $(function () {
         width: 350,
         modal: true,
         buttons: {
-            "Create an account": addUser,
+            "Agregar usuario": addUser,
             Cancel: function () {
-                dialog.dialog("close");
+                dialog.dialog("cerrar");
             }
         },
         close: function () {
@@ -88,7 +88,92 @@ $(function () {
         addUser();
     });
 
-    $("#create-user").button().on("click", function () {
+    $("#create-user").button({
+        icons: {
+             primary: 'ui-icon-plusthick',
+             secondary: 'ui-icon-person'
+        }
+        }).on("click", function () {
         dialog.dialog("open");
+    });
+    
+    /***************************************************************************
+     * Configuracion de dialog form Permisos 
+     **************************************************************************/
+    $(".btn-agregar-permisos").button({
+         icons: {
+             primary: 'ui-icon-plusthick',
+             secondary: 'ui-icon-flag'
+        }        
+    });
+    $(".btn-quitar-permisos").button({
+         icons: {
+             primary: 'ui-icon-minusthick'
+        }        
+    });
+    $(".btn-editar-permisos").button({
+         icons: {
+             primary: '	ui-icon-pencil'
+        }        
+    });
+    
+    $("#format").buttonset()
+    dialog_permisos = $("#dialog-permisos").dialog({
+        autoOpen: false,
+        height: 450,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Agregar permisos": addUser,
+            Cancel: function () {
+                dialog_permisos.dialog("close");
+            }
+        },
+        close: function () {
+            form[ 0 ].reset();
+            allFields.removeClass("ui-state-error");
+        }
+    });
+    $(".btn-agregar-permisos").on("click", function () {
+        dialog_permisos.dialog("open");
+    });
+    
+    /***************************************************************************
+     * Configuracion de dialog form Direccion
+     **************************************************************************/
+    dialog_direccion = $("#dialog-direccion").dialog({
+        autoOpen: false,
+        height: 400,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Agregar direccion": addUser,
+            Cancel: function () {
+                dialog_direccion.dialog("close");
+            }
+        },
+        close: function () {
+            form[ 0 ].reset();
+            allFields.removeClass("ui-state-error");
+        }
+    });
+    $(".btn-agregar-direccion").button({
+         icons: {
+            primary: 'ui-icon-plusthick',
+            secondary: 'ui-icon-bookmark'
+        }        
+    });
+    $(".btn-quitar-direccion").button({
+         icons: {
+             primary: 'ui-icon-minusthick'
+        }        
+    });
+    $(".btn-editar-direccion").button({
+         icons: {
+             primary: '	ui-icon-pencil'
+        }        
+    });
+    $(".btn-agregar-direccion").on("click", function () {
+        dialog_direccion.dialog("open");
     });
 });
