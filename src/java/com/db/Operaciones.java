@@ -146,4 +146,93 @@ public class Operaciones {
         return listaUsuarios;
     }
     
+    public static LinkedList<Permisos> getPermisos(){
+        LinkedList<Permisos> listaPermisos = new LinkedList<Permisos>();
+        try{
+         Database d= new Database();
+            Connection con=d.getConection();
+            if(con!=null)
+            {
+                Statement st;
+                ResultSet rs;
+                st=con.createStatement();
+                rs=st.executeQuery("SELECT * FROM permisos");
+                while(rs.next())
+                {
+                    Permisos permisos= new Permisos();
+                    permisos.setId(rs.getInt(1));
+                    permisos.setEstatus(rs.getInt(2));
+                    permisos.setNombre(rs.getString(3));
+                    listaPermisos.add(permisos);
+                }
+                rs.close();
+                st.close();
+            }
+            d.cerrarConexion();   
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return listaPermisos;
+    }
+    
+    public static LinkedList<Permisos> getPermisosUsuario(){
+        LinkedList<Permisos> listaPermisosUsuario = new LinkedList<Permisos>();
+        try{
+         Database d= new Database();
+            Connection con=d.getConection();
+            if(con!=null)
+            {
+                Statement st;
+                ResultSet rs;
+                st=con.createStatement();
+                rs=st.executeQuery("SELECT u.id as userID,u.nombre as nombreUsuario,username,p.id as permisoID,estatus,p.nombre as nombrePermiso FROM usuarios u INNER JOIN usuarios_permisos up ON u.id=up.usuarios_id INNER JOIN permisos p on up.permisos_id=p.id ");
+                while(rs.next())
+                {
+                    Permisos permisos= new Permisos();
+                    permisos.setId(rs.getInt(1));
+                    permisos.setEstatus(rs.getInt(2));
+                    permisos.setNombre(rs.getString(3));
+                    listaPermisosUsuario.add(permisos);
+                }
+                rs.close();
+                st.close();
+            }
+            d.cerrarConexion();   
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return listaPermisosUsuario;
+    }
+    
+    public static LinkedList<Direcciones> getDirecciones(){
+        LinkedList<Direcciones> listaDirecciones = new LinkedList<Direcciones>();
+        try{
+         Database d= new Database();
+            Connection con=d.getConection();
+            if(con!=null)
+            {
+                Statement st;
+                ResultSet rs;
+                st=con.createStatement();
+                rs=st.executeQuery("SELECT * FROM direcciones");
+                while(rs.next())
+                {
+                    Direcciones direcciones= new Direcciones();
+                    direcciones.setId(rs.getInt(1));
+                    direcciones.setCalle(rs.getString(2));
+                    direcciones.setCodigoPostal(rs.getString(3));
+                    listaDirecciones.add(direcciones);
+                }
+                rs.close();
+                st.close();
+            }
+            d.cerrarConexion();   
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return listaDirecciones;
+    }
 }
