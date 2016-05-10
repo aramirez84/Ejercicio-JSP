@@ -113,12 +113,13 @@ $(function () {
     }
     function addPermissions() {
         var valid = true;
-        var allPermisos=[];
+        var allPermisos=new Array();
         allFields.removeClass("ui-state-error");
         $("input:checkbox:checked").each(function(){
-            allPermisos.push($(this).val());
+            allPermisos.push(parseInt($(this).val()));
         });
         console.log(userID);
+        console.log(allPermisos);
         valid = valid && checkLengthPermissions(allPermisos);
         if (valid) {
             $.post("ServletAgregarPermisos", {
