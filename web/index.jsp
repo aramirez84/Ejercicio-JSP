@@ -28,6 +28,7 @@
         <table border="1">
             <thead>
                 <tr>
+                    <th> # </th>
                     <th>Nombre</th>
                     <th>Password</th>
                     <th>Username</th>
@@ -51,6 +52,7 @@
                     for(int i=0;i<usuarios.size();i++)
                     {
                         out.println("<tr>");
+                        out.println("<td>"+(i+1)+"<input type='hidden' name='"+usuarios.get(i).getNombre()+"' value='"+usuarios.get(i).getId()+"' id='"+usuarios.get(i).getId()+"'></td>");
                         out.println("<td>"+usuarios.get(i).getNombre()+"</td>");
                         out.println("<td>"+usuarios.get(i).getPassword()+"</td>");
                         out.println("<td>"+usuarios.get(i).getUsername()+"</td>");
