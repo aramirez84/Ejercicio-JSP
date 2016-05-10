@@ -49,11 +49,11 @@ $(function () {
         valid = valid && checkRegexp(password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9");
 
         if (valid) {
-            $.post("ServletAgregar",{
-                nombre:nombre.val(),
-                username:username.val(),
-                password:password.val()
-            },function(data){
+            $.post("ServletAgregar", {
+                nombre: nombre.val(),
+                username: username.val(),
+                password: password.val()
+            }, function (data) {
                 console.log(data);
                 location.reload();
             });
@@ -61,7 +61,7 @@ $(function () {
         }
         else
         {
-           console.log("Error");
+            console.log("Error");
         }
         return valid;
     }
@@ -90,54 +90,97 @@ $(function () {
 
     $("#create-user").button({
         icons: {
-             primary: 'ui-icon-plusthick',
-             secondary: 'ui-icon-person'
+            primary: 'ui-icon-plusthick',
+            secondary: 'ui-icon-person'
         }
-        }).on("click", function () {
+    }).on("click", function () {
         dialog.dialog("open");
     });
-    
+
     /***************************************************************************
      * Configuracion de dialog form Permisos 
      **************************************************************************/
-    $(".btn-agregar-permisos").button({
-         icons: {
-             primary: 'ui-icon-plusthick',
-             secondary: 'ui-icon-flag'
-        }        
-    });
-    $(".btn-quitar-permisos").button({
-         icons: {
-             primary: 'ui-icon-minusthick'
-        }        
-    });
-    $(".btn-editar-permisos").button({
-         icons: {
-             primary: '	ui-icon-pencil'
-        }        
-    });
+    var dialog_permisos, form_permisos,userID,
+        tips = $(".validateTips");
     
-    $("#format").buttonset()
+    function checkLengthPermissions(o) {
+        if (o.length !==0 ) {
+            return true;
+        } else {
+            updateTips("Debe seleccionar un permiso.");
+            return false;
+        }
+    }
+    function addPermissions() {
+        var valid = true;
+        var allPermisos=[];
+        allFields.removeClass("ui-state-error");
+        $("input:checkbox:checked").each(function(){
+            allPermisos.push($(this).val());
+        });
+        console.log(userID);
+        valid = valid && checkLengthPermissions(allPermisos);
+        if (valid) {
+            $.post("ServletAgregarPermisos", {
+                userID: userID,
+                permisos: allPermisos
+            }, function (data) {
+                console.log(data);
+                //location.reload();
+            });
+            dialog.dialog("close");
+        }
+        else
+        {
+            console.log("Error");
+        }
+        return valid;
+    }
     dialog_permisos = $("#dialog-permisos").dialog({
         autoOpen: false,
         height: 450,
         width: 350,
         modal: true,
         buttons: {
-            "Agregar permisos": addUser,
+            "Agregar permisos": addPermissions,
             Cancel: function () {
                 dialog_permisos.dialog("close");
             }
         },
         close: function () {
-            form[ 0 ].reset();
-            allFields.removeClass("ui-state-error");
+            form_permisos[ 0 ].reset();
         }
     });
+    form_permisos = dialog.find("form").on("submit", function (event) {
+        event.preventDefault();
+        addPermissions()();
+    });
     $(".btn-agregar-permisos").on("click", function () {
+        userID=$(this).parents("td").parent('tr').children('td').first().find('input').val();
         dialog_permisos.dialog("open");
     });
-    
+    /***************************************************************************
+     * Configuracion de los botones para agregar,editar o eliminar permisos 
+     **************************************************************************/
+    $(".btn-agregar-permisos").button({
+        icons: {
+            primary: 'ui-icon-plusthick',
+            secondary: 'ui-icon-flag'
+        }
+    });
+    $(".btn-quitar-permisos").button({
+        icons: {
+            primary: 'ui-icon-minusthick',
+            secondary: 'ui-icon-flag'
+        }
+    });
+    $(".btn-editar-permisos").button({
+        icons: {
+            primary: '	ui-icon-pencil',
+            secondary: 'ui-icon-flag'
+        }
+    });
+    $("#format").buttonset()
     /***************************************************************************
      * Configuracion de dialog form Direccion
      **************************************************************************/
@@ -157,23 +200,28 @@ $(function () {
             allFields.removeClass("ui-state-error");
         }
     });
-    $(".btn-agregar-direccion").button({
-         icons: {
-            primary: 'ui-icon-plusthick',
-            secondary: 'ui-icon-bookmark'
-        }        
-    });
-    $(".btn-quitar-direccion").button({
-         icons: {
-             primary: 'ui-icon-minusthick'
-        }        
-    });
-    $(".btn-editar-direccion").button({
-         icons: {
-             primary: '	ui-icon-pencil'
-        }        
-    });
     $(".btn-agregar-direccion").on("click", function () {
         dialog_direccion.dialog("open");
+    });
+    /***************************************************************************
+     * Configuracion de los botones para agregar,editar o eliminar direecion
+     **************************************************************************/
+    $(".btn-agregar-direccion").button({
+        icons: {
+            primary: 'ui-icon-plusthick',
+            secondary: 'ui-icon-bookmark'
+        }
+    });
+    $(".btn-quitar-direccion").button({
+        icons: {
+            primary: 'ui-icon-minusthick',
+            secondary: 'ui-icon-bookmark'
+        }
+    });
+    $(".btn-editar-direccion").button({
+        icons: {
+            primary: '	ui-icon-pencil',
+            secondary: 'ui-icon-bookmark'
+        }
     });
 });
