@@ -17,7 +17,7 @@
         <link href="css/jquery-ui.css" rel="stylesheet" type="text/css">
         <link href="css/index.css" rel="stylesheet" type="text/css">
         <script src="js/jquery.js" type="text/javascript" ></script>
-        <script src="js/jquery-ui.min.js"></script>
+        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/scripts.js" type="text/javascript" ></script>
         <title>Lista de Usuarios</title>
     </head>
@@ -25,6 +25,20 @@
         <h1>Usuarios Existentes</h1>
         <button id="create-user"></button>
         <br><br>
+        <%
+            String dialog = "<div id='dialog-message'title='Error'>"
+                    + " <p>"
+                    + " <span class='ui-icon ui-icon-alert ' style='float:left; margin:0 7px 50px 0;'></span>"
+                    + " Your files have downloaded successfully into the My Downloads folder. "
+                    + "</p> <p> Currently using <b>36% of your storage space</b>. </p> </div>";
+            LinkedList<Usuario> usuarios = Operaciones.getUsuarios();
+            LinkedList<Permisos> permisosUsuario = Operaciones.getPermisosUsuario();
+            LinkedList<Direcciones> direccionesUsuario = Operaciones.getDirecciones();
+            if (usuarios.size()== 1) {
+                out.println(dialog);
+            }
+
+        %>
         <table border="1">
             <thead>
                 <tr>
@@ -37,49 +51,35 @@
                 </tr>
             </thead>
             <tbody>
-            <%
-                LinkedList<Usuario> usuarios=Operaciones.getUsuarios();
-                LinkedList<Permisos> permisosUsuario=Operaciones.getPermisosUsuario();
-                LinkedList<Direcciones> direccionesUsuario=Operaciones.getDirecciones();
-                if(usuarios.size()==0)
-                {
-                    out.println("<tr>");
-                    out.println("<td colspan='5'>No hay usuarios registrados</td>");
-                    out.println("<tr>");
-                }
-                else
-                {
-                    for(int i=0;i<usuarios.size();i++)
-                    {
+                <%                if (usuarios.size() <= 1) {
                         out.println("<tr>");
-                        out.println("<td>"+(i+1)+"<input type='hidden' name='"+usuarios.get(i).getNombre()+"' value='"+usuarios.get(i).getId()+"' id='"+usuarios.get(i).getId()+"'></td>");
-                        out.println("<td>"+usuarios.get(i).getNombre()+"</td>");
-                        out.println("<td>"+usuarios.get(i).getPassword()+"</td>");
-                        out.println("<td>"+usuarios.get(i).getUsername()+"</td>");
-                        if(permisosUsuario.size()==0)
-                        {
-                            out.println("<td>No tiene permisos</td>");
-                            out.println("<td><button class='btn-agregar-permisos'></button></td>");
+                        out.println("<td colspan='8'>No hay usuarios registrados</td>");
+                        out.println("<tr>");
+                    } else {
+                        for (int i = 0; i < usuarios.size(); i++) {
+                            out.println("<tr>");
+                            out.println("<td>" + (i + 1) + "<input type='hidden' name='" + usuarios.get(i).getNombre() + "' value='" + usuarios.get(i).getId() + "' id='" + usuarios.get(i).getId() + "'></td>");
+                            out.println("<td>" + usuarios.get(i).getNombre() + "</td>");
+                            out.println("<td>" + usuarios.get(i).getPassword() + "</td>");
+                            out.println("<td>" + usuarios.get(i).getUsername() + "</td>");
+                            if (permisosUsuario.size() == 0) {
+                                out.println("<td>No tiene permisos</td>");
+                                out.println("<td><button class='btn-agregar-permisos'></button></td>");
+                            } else {
+                                out.println("<td></td>");
+                                out.println("<td><button class='btn-quitar-permisos'></button><button class='btn-editar-permisos'></button></td>");
+                            }
+                            if (direccionesUsuario.size() == 0) {
+                                out.println("<td> No tiene direecion(es)</td>");
+                                out.println("<td><button class='btn-agregar-direccion'></button></td>");
+                            } else {
+                                out.println("<td></td>");
+                                out.println("<td><button class='btn-quitar-direccion'></button><button class='btn-editar-direccion'></button></td>");
+                            }
+                            out.println("</tr>");
                         }
-                        else
-                        {
-                            out.println("<td></td>");
-                            out.println("<td><button class='btn-quitar-permisos'></button><button class='btn-editar-permisos'></button></td>");
-                        }
-                        if(direccionesUsuario.size()==0)
-                        {
-                            out.println("<td> No tiene direecion(es)</td>");
-                            out.println("<td><button class='btn-agregar-direccion'></button></td>");
-                        }
-                        else
-                        {
-                            out.println("<td></td>");
-                            out.println("<td><button class='btn-quitar-direccion'></button><button class='btn-editar-direccion'></button></td>");
-                        }
-                        out.println("</tr>");
                     }
-                }
-            %>
+                %>
             </tbody>
         </table>
         <div id="dialog-form" title="Nuevo Usuario">
@@ -96,17 +96,16 @@
                 </fieldset>
             </form>
         </div>
-            
+
         <div id="dialog-permisos" title="Permisos">
             <p class="validateTips">Seleccione los permisos.</p>
             <form>
                 <fieldset>
                     <div id="format">
                         <%
-                            LinkedList<Permisos> permisos=Operaciones.getPermisos();
-                            for(int i=0;i<permisos.size();i++)
-                            {
-                                out.println("<input type='checkbox' name='permisos' value='"+permisos.get(i).getId()+"' id='permiso"+permisos.get(i).getId()+"' class='text'><label for='permiso"+permisos.get(i).getId()+"'>"+permisos.get(i).getNombre()+"</label><br>");
+                            LinkedList<Permisos> permisos = Operaciones.getPermisos();
+                            for (int i = 0; i < permisos.size(); i++) {
+                                out.println("<input type='checkbox' name='permisos' value='" + permisos.get(i).getId() + "' id='permiso" + permisos.get(i).getId() + "' class='text'><label for='permiso" + permisos.get(i).getId() + "'>" + permisos.get(i).getNombre() + "</label><br>");
                             }
                         %>
                     </div>
