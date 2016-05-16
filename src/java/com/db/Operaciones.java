@@ -138,6 +138,13 @@ public class Operaciones {
                 rs.close();
                 st.close();
             }
+            else
+            {
+                Usuario usuario= new Usuario();
+                usuario.setNombre(d.getMensaje());
+                listaUsuarios.add(usuario);
+                
+            }
             d.cerrarConexion();   
         }
         catch(SQLException e){
