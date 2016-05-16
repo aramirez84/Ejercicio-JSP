@@ -1,4 +1,14 @@
 $(function () {
+    $( "#dialog-message" ).dialog({
+        modal: true,
+        buttons: {
+            Ok: function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });
+    $("#dialog-messages").parents('div').addClass('ui-state-error ui-corner-all');
+    
     var dialog, form,
             nombre = $("#nombre"),
             username = $("#username"),
