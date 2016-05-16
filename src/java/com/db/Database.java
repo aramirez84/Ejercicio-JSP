@@ -20,6 +20,7 @@ public class Database{
     private static String pass="exa829";
     private static String driver="com.mysql.jdbc.Driver";
     private static Connection conexion;
+    private static String mensaje;
     
     public Database(){
         try {
@@ -28,7 +29,8 @@ public class Database{
             System.out.println("Conexion realizada con exito");
         } 
         catch (ClassNotFoundException | SQLException e) {
-            System.out.println("conexion fallida");
+            setMensaje(e.getMessage());
+            System.out.println("Mensaje: "+e.getMessage());
         }
     }
     
@@ -38,11 +40,23 @@ public class Database{
     
     public void cerrarConexion(){
         try {
-            conexion.close();
-            System.out.println("Cerrando conexion");
+            if(conexion!=null)
+            {
+                conexion.close();
+                System.out.println("Cerrando conexion");                
+            }
         } 
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public String getMensaje()
+    {
+        return mensaje;
+    }
+    
+    public void setMensaje(String mensaje){
+        mensaje=mensaje;
     }
 }
