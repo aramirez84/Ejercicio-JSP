@@ -19,9 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bdexamen`
 --
-CREATE DATABASE IF NOT EXISTS `bdexamen`
+CREATE DATABASE IF NOT EXISTS `bdexamen`;
 
-USE `bdexamen`
+USE `bdexamen`;
 -- --------------------------------------------------------
 
 --
