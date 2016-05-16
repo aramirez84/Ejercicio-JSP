@@ -1,60 +1,99 @@
-/*
-SQLyog Community v11.51 (64 bit)
-MySQL - 5.6.17 : Database - dbexamen
-*********************************************************************
-*/
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 16-05-2016 a las 20:47:29
+-- Versión del servidor: 10.1.13-MariaDB
+-- Versión de PHP: 5.6.20
 
-/*!40101 SET NAMES utf8 */;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-/*!40101 SET SQL_MODE=''*/;
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-/*Table structure for table `direcciones` */
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-CREATE TABLE `direcciones` (
+--
+-- Base de datos: `bdexamen`
+--
+CREATE DATABASE IF NOT EXISTS `bdexamen`
+
+USE `bdexamen`
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `direcciones`
+--
+
+CREATE TABLE IF NOT EXISTS `direcciones` (
   `id` bigint(20) NOT NULL,
   `calle` varchar(255) DEFAULT NULL,
   `codigoPostal` varbinary(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `permisos` */
+-- --------------------------------------------------------
 
-CREATE TABLE `permisos` (
+--
+-- Estructura de tabla para la tabla `permisos`
+--
+
+CREATE TABLE IF NOT EXISTS `permisos` (
   `id` bigint(20) NOT NULL,
   `estatus` int(11) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `usuarios` */
+-- --------------------------------------------------------
 
-CREATE TABLE `usuarios` (
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE IF NOT EXISTS `usuarios` (
   `id` bigint(20) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `direccion_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_direccion` (`direccion_id`),
-  CONSTRAINT `fk_direccion` FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`)
+  KEY `fk_direccion` (`direccion_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `usuarios_permisos` */
+-- --------------------------------------------------------
 
-CREATE TABLE `usuarios_permisos` (
+--
+-- Estructura de tabla para la tabla `usuarios_permisos`
+--
+
+CREATE TABLE IF NOT EXISTS `usuarios_permisos` (
   `usuarios_id` bigint(20) DEFAULT NULL,
   `permisos_id` bigint(20) DEFAULT NULL,
   KEY `fk_usuarios` (`usuarios_id`),
-  KEY `fk_permisos` (`permisos_id`),
-  CONSTRAINT `fk_usuarios` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`),
-  CONSTRAINT `fk_permisos` FOREIGN KEY (`permisos_id`) REFERENCES `permisos` (`id`)
+  KEY `fk_permisos` (`permisos_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD CONSTRAINT `fk_direccion` FOREIGN KEY (`direccion_id`) REFERENCES `direcciones` (`id`);
+
+--
+-- Filtros para la tabla `usuarios_permisos`
+--
+ALTER TABLE `usuarios_permisos`
+  ADD CONSTRAINT `fk_permisos` FOREIGN KEY (`permisos_id`) REFERENCES `permisos` (`id`),
+  ADD CONSTRAINT `fk_usuarios` FOREIGN KEY (`usuarios_id`) REFERENCES `usuarios` (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
