@@ -26,15 +26,15 @@
         <button id="create-user"></button>
         <br><br>
         <%
-            String dialog = "<div id='dialog-message'title='Error'>"
-                    + " <p>"
-                    + " <span class='ui-icon ui-icon-alert ' style='float:left; margin:0 7px 50px 0;'></span>"
-                    + " Your files have downloaded successfully into the My Downloads folder. "
-                    + "</p> <p> Currently using <b>36% of your storage space</b>. </p> </div>";
             LinkedList<Usuario> usuarios = Operaciones.getUsuarios();
             LinkedList<Permisos> permisosUsuario = Operaciones.getPermisosUsuario();
             LinkedList<Direcciones> direccionesUsuario = Operaciones.getDirecciones();
-            if (usuarios.size()== 1) {
+            if (usuarios.size() == 1 && usuarios.get(0).getUsername()== null ) {
+                String dialog = "<div id='dialog-message'title='Error'>"
+                    + " <p>"
+                    + " <span class='ui-icon ui-icon-alert ' style='float:left; margin:0 7px 50px 0;'></span>"
+                    + " Hubo un error con la base de datos. "
+                    + "</p> <p> ERROR:  <b> "+usuarios.get(0).getNombre()+" </b>. </p> </div>";
                 out.println(dialog);
             }
 
@@ -51,11 +51,12 @@
                 </tr>
             </thead>
             <tbody>
-                <%                if (usuarios.size() <= 1) {
+                <%
+                    if (usuarios.size() == 0 || usuarios.get(0).getUsername()== null) {
                         out.println("<tr>");
                         out.println("<td colspan='8'>No hay usuarios registrados</td>");
                         out.println("<tr>");
-                    } else {
+                    } else{
                         for (int i = 0; i < usuarios.size(); i++) {
                             out.println("<tr>");
                             out.println("<td>" + (i + 1) + "<input type='hidden' name='" + usuarios.get(i).getNombre() + "' value='" + usuarios.get(i).getId() + "' id='" + usuarios.get(i).getId() + "'></td>");
@@ -104,8 +105,18 @@
                     <div id="format">
                         <%
                             LinkedList<Permisos> permisos = Operaciones.getPermisos();
-                            for (int i = 0; i < permisos.size(); i++) {
+                            if(permisos.size()!=0)
+                            {
+                                for (int i = 0; i < permisos.size(); i++) {
                                 out.println("<input type='checkbox' name='permisos' value='" + permisos.get(i).getId() + "' id='permiso" + permisos.get(i).getId() + "' class='text'><label for='permiso" + permisos.get(i).getId() + "'>" + permisos.get(i).getNombre() + "</label><br>");
+                                }
+                            }
+                            else
+                            {
+                                out.println("<div style='padding: 0 .7em;' class='ui-state-error ui-corner-all'>"
+                                        +" <p><span style='float: left; margin-right: .3em;' class='ui-icon ui-icon-alert'></span>"
+                                        +" <strong>Alert:</strong> No hay permisos en la Base de datos.</p>"
+                                        +" </div>");
                             }
                         %>
                     </div>

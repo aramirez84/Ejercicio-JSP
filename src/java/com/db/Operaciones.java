@@ -141,14 +141,16 @@ public class Operaciones {
             else
             {
                 Usuario usuario= new Usuario();
-                usuario.setNombre(d.getMensaje());
+                usuario.setNombre(d.getErrorSQL());
                 listaUsuarios.add(usuario);
                 
             }
             d.cerrarConexion();   
         }
         catch(SQLException e){
-            e.printStackTrace();
+            Usuario usuario= new Usuario();
+            usuario.setNombre(e.getMessage());
+            listaUsuarios.add(usuario);
         }
         return listaUsuarios;
     }

@@ -26,11 +26,9 @@ public class Database{
         try {
             Class.forName(driver);
             conexion=DriverManager.getConnection(servidor,user,pass);
-            System.out.println("Conexion realizada con exito");
         } 
         catch (ClassNotFoundException | SQLException e) {
-            setMensaje(e.getMessage());
-            System.out.println("Mensaje: "+e.getMessage());
+            setErrorSQL(e);
         }
     }
     
@@ -51,12 +49,12 @@ public class Database{
         }
     }
     
-    public String getMensaje()
+    public String getErrorSQL()
     {
         return mensaje;
     }
-    
-    public void setMensaje(String mensaje){
-        mensaje=mensaje;
+    public void setErrorSQL(Exception e)
+    {
+        mensaje=e.getMessage();
     }
 }
